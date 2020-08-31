@@ -1,14 +1,16 @@
 import os
+import json
 import shutil
 import onnx
 
 from neuropod.utils.packaging_utils import packager
 
 @packager(platform="onnx")
-def create_onnx_neuropod(neuropod_path, node_name_mapping, onnx_model=None, model_path=None, external_data_path=None, **kwargs):
+def create_onnx_neuropod(neuropod_path, input_spec,output_spec,node_name_mapping, onnx_model=None, model_path=None, **kwargs):
     """
     Packages a ONNX model as a neuropod package.
 
+    Hint: we dont support model size > 2GiB
     {common_doc_pre}
 
     :param  node_name_mapping:  Mapping from a neuropod input/output name to a node in the graph. 
@@ -20,15 +22,13 @@ def create_onnx_neuropod(neuropod_path, node_name_mapping, onnx_model=None, mode
                                         "x": "Add_X",
                                         "y": "Add_Y",
                                         "out": "Add_Z",
-                                    }
+                                    } 
                                     ```
 
     :param  onnx_model:             Loaded in-memory ModelProto. If this is not provided, `model_path` must be set.
 
     :param  model_path:             The path to a ONNX serialized ModelProto.
                                     If this is not provided, `onnx_model` must be set.
-
-    :param  external_data_path:     The path to a directory that contains external data.
                                 
 
     {common_doc_post}
@@ -44,12 +44,9 @@ def create_onnx_neuropod(neuropod_path, node_name_mapping, onnx_model=None, mode
 
     # Add the model to the neuropod
     target_model_path = os.path.join(neuropod_data_path, "model.pb")
-    target_external_data_path = os.path.join(neuropod_data_path, "external.data")
     if model_path is not None:
         # Copy in the module
         shutil.copyfile(model_path, target_model_path)
-        if external_data_path is not None:
-            shutil.copyfile(external_data_path, target_external_data_path)
     else:
         # Save the model
         onnx.save(onnx_model, target_model_path)

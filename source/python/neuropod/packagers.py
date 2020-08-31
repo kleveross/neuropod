@@ -45,6 +45,7 @@ class PackagerLoader(object):
             "tensorflow",
             "torchscript",
             "caffe",
+            "onnx",
         ]:
             raise RuntimeError(
                 "Tried to get an invalid attribute on neuropod.packagers ({})".format(
