@@ -190,7 +190,7 @@ class NativeNeuropodExecutor:
         pass
 
 
-def load_neuropod(neuropod_path, _always_use_native=True, **kwargs):
+def load_neuropod(neuropod_path, _always_use_native=False, **kwargs):
     """
     Load a neuropod package. Returns a NeuropodExecutor
 
@@ -234,6 +234,10 @@ def load_neuropod(neuropod_path, _always_use_native=True, **kwargs):
         from neuropod.backends.caffe2.executor import Caffe2NeuropodExecutor
 
         return Caffe2NeuropodExecutor(neuropod_path, **kwargs)       
+    elif platform == "mxnet":
+        from neuropod.backends.mxnet.executor import MxnetNeuropodExecutor
+
+        return MxnetNeuropodExecutor(neuropod_path, **kwargs)
     else:
         raise ValueError(
             "Invalid platform found in neuropod config: {}".format(platform)
