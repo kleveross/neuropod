@@ -230,6 +230,10 @@ def load_neuropod(neuropod_path, _always_use_native=True, **kwargs):
         from neuropod.backends.onnx.executor import OnnxNeuropodExecutor
 
         return OnnxNeuropodExecutor(neuropod_path, **kwargs)
+    elif platform == "caffe2":
+        from neuropod.backends.caffe2.executor import Caffe2NeuropodExecutor
+
+        return Caffe2NeuropodExecutor(neuropod_path, **kwargs)       
     else:
         raise ValueError(
             "Invalid platform found in neuropod config: {}".format(platform)
