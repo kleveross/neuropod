@@ -1,3 +1,5 @@
+.ipynb_checkpoints
+
 *.profraw
 *.pyc
 source/compile_commands.json
