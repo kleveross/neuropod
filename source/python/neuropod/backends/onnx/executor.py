@@ -30,7 +30,6 @@ class OnnxNeuropodExecutor(NeuropodExecutor):
     """
     Executes a ONNX neuropod
     """
-
     def __init__(self, neuropod_path, load_custom_ops=True):
         """
         Load a ONNX neuropod
@@ -41,21 +40,20 @@ class OnnxNeuropodExecutor(NeuropodExecutor):
 
         # Load custom ops (if any)
         if load_custom_ops and "custom_ops" in self.neuropod_config:
-            #TBD :support custom ops 
+            #TBD :support custom ops
             pass
-        
+
         # Create a session
-        self.sess = onnxr.InferenceSession(os.path.join(neuropod_path, "0", "data", "model.pb"))
+        self.sess = onnxr.InferenceSession(
+            os.path.join(neuropod_path, "0", "data", "model.pb"))
 
         # Load the ONNX specific config
-        with open(os.path.join(neuropod_path, "0", "config.json"), "r") as config_file:
+        with open(os.path.join(neuropod_path, "0", "config.json"),
+                  "r") as config_file:
             model_config = json.load(config_file)
 
             # Get the node name mapping and store it
             self.node_name_mapping = model_config["node_name_mapping"]
-
-
-        
 
     def forward(self, inputs):
         """
@@ -82,7 +80,7 @@ class OnnxNeuropodExecutor(NeuropodExecutor):
             # Get the graph node
             onnx_name = self.node_name_mapping[neuropod_name]
             # Add it to the output nodes
-            output_dict[neuropod_name]=onnx_name
+            output_dict[neuropod_name] = onnx_name
 
         # Get the input nodes
         for node in self.neuropod_config["input_spec"]:
@@ -100,7 +98,8 @@ class OnnxNeuropodExecutor(NeuropodExecutor):
             feed_dict[onnx_name] = inputs[neuropod_name]
 
         # Run inference
-        outputs = self.sess.run(list(output_dict.values()), input_feed=feed_dict)
-        outputs = dict(zip(output_dict.keys(),outputs))
+        outputs = self.sess.run(list(output_dict.values()),
+                                input_feed=feed_dict)
+        outputs = dict(zip(output_dict.keys(), outputs))
 
         return outputs

@@ -5,8 +5,15 @@ import onnx
 
 from neuropod.utils.packaging_utils import packager
 
+
 @packager(platform="onnx")
-def create_onnx_neuropod(neuropod_path, input_spec,output_spec,node_name_mapping, onnx_model=None, model_path=None, **kwargs):
+def create_onnx_neuropod(neuropod_path,
+                         input_spec,
+                         output_spec,
+                         node_name_mapping,
+                         onnx_model=None,
+                         model_path=None,
+                         **kwargs):
     """
     Packages a ONNX model as a neuropod package.
 
@@ -36,7 +43,8 @@ def create_onnx_neuropod(neuropod_path, input_spec,output_spec,node_name_mapping
     # Make sure the inputs are valid
     if (onnx_model is None) == (model_path is None):
         # If they are both None or both not None
-        raise ValueError("Exactly one of 'onnx_model' and 'model_path' must be provided.")
+        raise ValueError(
+            "Exactly one of 'onnx_model' and 'model_path' must be provided.")
 
     # Create a folder to store the model
     neuropod_data_path = os.path.join(neuropod_path, "0", "data")
@@ -51,7 +59,7 @@ def create_onnx_neuropod(neuropod_path, input_spec,output_spec,node_name_mapping
         # Save the model
         onnx.save(onnx_model, target_model_path)
 
-   # Make sure we have mappings for everything in the spec
+# Make sure we have mappings for everything in the spec
     expected_keys = set()
     for spec in [input_spec, output_spec]:
         for tensor in spec:
@@ -62,14 +70,13 @@ def create_onnx_neuropod(neuropod_path, input_spec,output_spec,node_name_mapping
 
     if len(missing_keys) > 0:
         raise ValueError(
-            "Expected an item in `node_name_mapping` for every tensor in input_spec and output_spec. Missing: `{}`".format(
-                missing_keys
-            )
-        )
+            "Expected an item in `node_name_mapping` for every tensor in input_spec and output_spec. Missing: `{}`"
+            .format(missing_keys))
 
     # We also need to save the node name mapping so we know how to run the model
     # This is tensorflow specific config so it's not saved in the overall neuropod config
-    with open(os.path.join(neuropod_path, "0", "config.json"), "w") as config_file:
+    with open(os.path.join(neuropod_path, "0", "config.json"),
+              "w") as config_file:
         json.dump(
             {
                 "node_name_mapping": node_name_mapping,
