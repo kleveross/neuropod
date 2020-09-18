@@ -23,7 +23,7 @@ from neuropod.backends.neuropod_executor import NeuropodExecutor
 
 class MxnetNeuropodExecutor(NeuropodExecutor):
     """
-    Executes a MXnet neuropod
+    Executes a MXNet neuropod
     """
     def __init__(self, neuropod_path):
         """
