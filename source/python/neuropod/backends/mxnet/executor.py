@@ -27,9 +27,9 @@ class MxnetNeuropodExecutor(NeuropodExecutor):
     """
     def __init__(self, neuropod_path):
         """
-        Load a MXnet neuropod
+        Load a MXNet neuropod
 
-        :param  neuropod_path:      The path to a MXnet neuropod package
+        :param  neuropod_path:      The path to a MXNet neuropod package
 
         """
         super(MxnetNeuropodExecutor, self).__init__(neuropod_path)

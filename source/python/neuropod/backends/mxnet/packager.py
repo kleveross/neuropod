@@ -28,7 +28,7 @@ def create_mxnet_neuropod(neuropod_path,
                           param_file=None,
                           **kwargs):
     """
-    Packages a Mxnet model as a neuropod package.
+    Packages a MXNet model as a neuropod package.
 
     {common_doc_pre}
 
@@ -39,7 +39,7 @@ def create_mxnet_neuropod(neuropod_path,
                                     ['data0','data1']
                                     ```
 
-    :param  module:             An instance of a Mxnet hybridize model.  If this is not provided, `symbol_file` must be set.
+    :param  module:             An instance of a MXNet hybridize model.  If this is not provided, `symbol_file` must be set.
 
     :param  symbol_file:        The path to a ScriptModule that was already exported using `torch.jit.save`.
                                 If this is not provided, `module` must be set.
