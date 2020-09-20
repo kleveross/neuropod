@@ -47,6 +47,7 @@ class PackagerLoader(object):
             "caffe",
             "onnx",
             "caffe2",
+            "mxnet",
         ]:
             raise RuntimeError(
                 "Tried to get an invalid attribute on neuropod.packagers ({})".format(
